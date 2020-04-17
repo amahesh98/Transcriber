@@ -4,7 +4,6 @@ import time
 
 from pynput.keyboard import Key, Controller
 
-
 def describe(transcribedSongFile, waitPeriod=3):
   startTime = time.time()
   if not os.path.exists('transcribedSongs'):
@@ -16,7 +15,8 @@ def describe(transcribedSongFile, waitPeriod=3):
     exit(0)
 
   keyboard = Controller()
-
+  print("Describing song  "+transcribedSongFile)
+  print("Start playing music once the BEGIN appears")
   transcribedSong = open(transcribedSongFile)
   words = []
   times = []
@@ -30,9 +30,8 @@ def describe(transcribedSongFile, waitPeriod=3):
     differential = times[i] - times[i-1]
     timeDifferentials.append(differential)
 
-  print("Finished setting up in "+str(time.time() - startTime) + ' seconds.')
   time.sleep(waitPeriod)
-  print("Begin playing music")
+  print("BEGIN")
   time.sleep(0.4)
   for i in range(0, len(words)):
     time.sleep(timeDifferentials[i])
@@ -41,6 +40,7 @@ def describe(transcribedSongFile, waitPeriod=3):
     keyboard.type(words[i] + ' ')
     # keyboard.press(Key.enter)
     # keyboard.release(Key.enter)
+
   keyboard.press(Key.enter)
   keyboard.release(Key.enter)
 

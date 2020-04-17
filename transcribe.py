@@ -1,6 +1,7 @@
 import argparse
 import io
 import os
+import time
 
 from google.oauth2 import service_account
 from google.cloud import speech
@@ -9,6 +10,10 @@ from google.cloud.speech import enums, types
 credentials = service_account.Credentials.from_service_account_file('keys/GoogleKey.json')
 
 def transcribeFile(speechFile, outputFilePath):
+  initializationTime = time.time()
+
+  print("Transcribing song "+speechFile)
+
   client = speech.SpeechClient(credentials=credentials)
 
   with io.open(speechFile, 'rb') as audioFile:
@@ -30,19 +35,21 @@ def transcribeFile(speechFile, outputFilePath):
     alternative = result.alternatives[0]
     transcript = alternative.transcript
     confidence = alternative.confidence
+
     for wordInfo in alternative.words:
       word = wordInfo.word
       startTime = wordInfo.start_time
       endTime = wordInfo.end_time
       buffer.append(f'{word} - {startTime.seconds + startTime.nanos * 1e-9}\n')
-      # print(f'{word} - {startTime.seconds + startTime.nanos * 1e-9}')
-  
+
   if not os.path.exists('transcribedSongs'):
       os.mkdir('transcribedSongs')
 
+  print("Finished transcribing song in "+str(time.time() - initializationTime) + ' seconds.')
   outputFile = open(outputFilePath, 'w')
   outputFile.write("".join(buffer))
   outputFile.close()
+  print("Writing to transcribedSongs/rachel.out")
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)

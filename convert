@@ -1,0 +1,11 @@
+#!/bin/sh
+if [ $# -ne 2 ]; then
+  echo '\n\033[1m\033[31mInvalid usage. Correct usage:\033[0m \n'
+  echo './convert <new-file-prefix> <file-to-convert>\n'
+  exit
+fi
+
+ffmpeg -i $2 -c:a flac $1_temp.flac
+ffmpeg -i $1_temp.flac -ac 1 $1.flac
+
+rm $1_temp.flac
