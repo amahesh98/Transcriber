@@ -34,4 +34,9 @@ def transcribeFile(speechFile):
       print(f'{word} - {startTime.seconds + startTime.nanos * 1e-9}')
 
 if __name__ == '__main__':
-  transcribeFile('./testFiles/sickoMode_trimmed.flac')
+  parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+  parser.add_argument(dest='audioFilePath', help="Enter the path to the .FLAC file. Maximum length must be 60 seconds and it must be Mono (not stereo).\nUse command: \nffmpeg -ss {start time(seconds)} -t {seconds to record for} -i {inputFile} {outputFile}\n to trim file.")
+  args = parser.parse_args()
+
+  # transcribeFile('./testFiles/sickoMode_trimmed.flac')
+  transcribeFile(args.audioFilePath)

@@ -1,0 +1,10 @@
+#!/bin/sh
+
+#ffmpeg -ss {start time(seconds)} -t {seconds to record for} -i {inputFile} {outputFile}
+if [ $# -ne 4 ]; then
+  echo '\n\033[1m\033[31mInvalid usage. Correct usage:\033[0m \n'
+  echo './trim <new-file-prefix> <file-to-trim> <start-time> <duration> \n'
+  exit
+fi
+
+ffmpeg -ss $3 -t $4 -i $2 $1_trimmed.flac
