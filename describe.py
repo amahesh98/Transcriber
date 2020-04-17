@@ -37,9 +37,8 @@ def describe(transcribedSongFile, waitPeriod=3):
     time.sleep(timeDifferentials[i])
     keyboard.press(Key.enter)
     keyboard.release(Key.enter)
+
     keyboard.type(words[i] + ' ')
-    # keyboard.press(Key.enter)
-    # keyboard.release(Key.enter)
 
   keyboard.press(Key.enter)
   keyboard.release(Key.enter)
