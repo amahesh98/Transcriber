@@ -49,7 +49,7 @@ def transcribeFile(speechFile, outputFilePath):
   outputFile = open(outputFilePath, 'w')
   outputFile.write("".join(buffer))
   outputFile.close()
-  print("Writing to transcribedSongs/rachel.out")
+  print("Writing to "+outputFilePath)
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)

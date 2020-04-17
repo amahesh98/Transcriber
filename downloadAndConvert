@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if [ $# -ne 2 ]; then
+  echo '\n\033[1m\033[31mInvalid usage. Correct usage:\033[0m \n'
+  echo './downloadAndConvert <youtube-url> <file-prefix>\n'
+  exit
+fi
+
+FILE_NAME=$2.mp3
+youtube-dl --extract-audio --prefer-ffmpeg --no-check-certificate --audio-format mp3 --output audioFiles/$FILE_NAME $1
+./convert $2 $FILE_NAME
+rm audioFiles/$FILE_NAME

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ $# -ne 2 ]; then
+  echo '\n\033[1m\033[31mInvalid usage. Correct usage:\033[0m \n'
+  echo './transcribe <youtube-url> <file-prefix>\n'
+  exit
+fi
+
+./downloadAndConvert $1 $2
+venv/bin/python3 transcribe.py $2.flac

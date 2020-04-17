@@ -1,5 +1,6 @@
 venv/
 .vscode/
-keys/.DS_Store
+keys/
+.DS_Store
 audioFiles/
 transcribedSongs/
