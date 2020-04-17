@@ -5,7 +5,7 @@ if [ $# -ne 2 ]; then
   exit
 fi
 
-ffmpeg -i $2 -c:a flac $1_temp.flac
-ffmpeg -i $1_temp.flac -ac 1 $1.flac
+ffmpeg -i audioFiles/$2 -c:a flac audioFiles/$1_temp.flac
+ffmpeg -i audioFiles/$1_temp.flac -ac 1 audioFiles/$1.flac
 
-rm $1_temp.flac
+rm audioFiles/$1_temp.flac

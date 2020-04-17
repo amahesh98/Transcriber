@@ -7,4 +7,4 @@ if [ $# -ne 4 ]; then
   exit
 fi
 
-ffmpeg -ss $3 -t $4 -i $2 $1_trimmed.flac
+ffmpeg -ss $3 -t $4 -i audioFiles/$2 audioFiles/$1_trimmed.flac

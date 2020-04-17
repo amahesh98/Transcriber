@@ -58,4 +58,4 @@ if __name__ == '__main__':
   outputFilePath= 'transcribedSongs/' + args.audioFilePath[args.audioFilePath.rfind('/') + 1:len(args.audioFilePath)-5] + '.out'
   
   # transcribeFile('./testFiles/sickoMode_trimmed.flac')
-  transcribeFile(args.audioFilePath, outputFilePath)
+  transcribeFile('audioFiles/' + args.audioFilePath, outputFilePath)
