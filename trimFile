@@ -1,0 +1,5 @@
+!/bin/sh
+
+ffmpeg -ss {start time(seconds)} -t {seconds to record for} -i {inputFile} {outputFile}
+
+// ffmpeg -ss 35 -t 50 -i bat.flac bat_trimmed.flac
