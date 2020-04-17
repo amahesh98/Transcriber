@@ -1,3 +1,5 @@
 venv/
 .vscode/
 keys/.DS_Store
+testFiles/
+transcribedSongs/
