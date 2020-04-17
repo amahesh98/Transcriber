@@ -6,23 +6,16 @@ from pynput.keyboard import Key, Controller
 
 
 def describe(transcribedSongFile, waitPeriod=3):
+  startTime = time.time()
   if not os.path.exists('transcribedSongs'):
     print("Transcribed songs do not exist yet. Run transcribe before running describe")
+    exit(0)
 
   if not os.path.isfile(transcribedSongFile):
     print ("[ERROR] Transcribed file does not exist")
     exit(0)
 
-  # print("Describing: ", transcribedSongFile)
-
   keyboard = Controller()
-  # time.sleep(waitPeriod)
-
-  # for i in range(0, 10):
-  #   keyboard.press('a')
-  #   keyboard.release('a')
-  #   keyboard.press('b')
-  #   keyboard.release('b')
 
   transcribedSong = open(transcribedSongFile)
   words = []
@@ -30,11 +23,26 @@ def describe(transcribedSongFile, waitPeriod=3):
   for line in transcribedSong:
     splitLine = line.split(' ')
     words.append(splitLine[0])
-    times.append(splitLine[2][:len(splitLine[2])-1])
+    times.append(float(splitLine[2][:len(splitLine[2])-1]))
   
-  print("Words:", words)
-  print("Times:", times)
+  timeDifferentials = [times[0]]
+  for i in range(1, len(times)):
+    differential = times[i] - times[i-1]
+    timeDifferentials.append(differential)
 
+  print("Finished setting up in "+str(time.time() - startTime) + ' seconds.')
+  time.sleep(waitPeriod)
+  print("Begin playing music")
+  time.sleep(0.4)
+  for i in range(0, len(words)):
+    time.sleep(timeDifferentials[i])
+    keyboard.press(Key.enter)
+    keyboard.release(Key.enter)
+    keyboard.type(words[i] + ' ')
+    # keyboard.press(Key.enter)
+    # keyboard.release(Key.enter)
+  keyboard.press(Key.enter)
+  keyboard.release(Key.enter)
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -42,4 +50,4 @@ if __name__ == '__main__':
   args = parser.parse_args()
 
   transcribedFile = 'transcribedSongs/'+args.transcribedFile+'.out'
-  describe(transcribedFile)
+  describe(transcribedFile, waitPeriod=2)
