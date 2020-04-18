@@ -3,8 +3,9 @@ import os
 import time
 
 from pynput.keyboard import Key, Controller
+from playsound import playsound
 
-def describe(transcribedSongFile, waitPeriod=3):
+def describe(transcribedSongFile, song, waitPeriod=3):
   startTime = time.time()
   if not os.path.exists('transcribedSongs'):
     print("Transcribed songs do not exist yet. Run transcribe before running describe")
@@ -16,7 +17,6 @@ def describe(transcribedSongFile, waitPeriod=3):
 
   keyboard = Controller()
   print("Describing song  "+transcribedSongFile)
-  print("Start playing music once the BEGIN appears")
   transcribedSong = open(transcribedSongFile)
   words = []
   times = []
@@ -31,8 +31,7 @@ def describe(transcribedSongFile, waitPeriod=3):
     timeDifferentials.append(differential)
 
   time.sleep(waitPeriod)
-  print("BEGIN")
-  time.sleep(0.4)
+  playsound(song, 0)
   for i in range(0, len(words)):
     time.sleep(timeDifferentials[i])
     keyboard.press(Key.enter)
@@ -46,7 +45,9 @@ def describe(transcribedSongFile, waitPeriod=3):
 if __name__ == '__main__':
   parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
   parser.add_argument(dest='transcribedFile', help='Enter file prefix of transcribed file. Path not needed.')
+  parser.add_argument(dest='song', help='Enter song file to play. Path not needed. Must be .mp3 or .wav')
   args = parser.parse_args()
 
   transcribedFile = 'transcribedSongs/'+args.transcribedFile+'.out'
-  describe(transcribedFile, waitPeriod=2)
+  songFile = 'audioFiles/' + args.song
+  describe(transcribedFile, song=songFile, waitPeriod=1)
